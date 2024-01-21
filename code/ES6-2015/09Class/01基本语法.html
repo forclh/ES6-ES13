@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        {
+            //ES5方式 定义类
+            // 构造函数
+            function Person(name, age) {
+                this.name = name;
+                this.age = age;
+            }
+            // 将方法定义在原型上
+            Person.prototype.sayHi = function () {
+                console.log(`你好我叫${this.name}, 我今年${this.age}岁了`);
+            }
+
+            let person = new Person('AK', 23);
+            console.log(person);
+            person.sayHi();    
+        }
+        
+        {
+            // ES6 方式定义类, class 本质上还是函数function
+            class Person {
+                // 构造器，相当于构造函数
+                constructor(name, age) {
+                    this.name = name;
+                    this.age = age;
+                }
+                // 定义方法，默认定义在原型上
+                sayHi() {
+                    console.log(`你好我叫${this.name}, 我今年${this.age}岁了`);
+                }
+            }
+
+            let person = new Person('AK', 24);
+            console.log(person);
+            person.sayHi();    
+        }
+    </script>
+</body>
+
+</html>

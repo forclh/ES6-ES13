@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <script>
+        {
+            class Person {
+                constructor(name, age) {
+                    this.name = name;
+                    this.age = age;
+                }
+                sayHi() {
+                    console.log(`你好我叫${this.name}, 我今年${this.age}岁了`);
+                }
+            }
+
+            // 使用关键字extends实现继承
+            class Student extends Person {
+                constructor(name, age, score) {
+                    // 调用父类的构造器进行初始化,必须放在第一行
+                    super(name, age);
+                    this.score = score;
+                }
+                // 其他方法
+                // ...
+            }
+
+            let student = new Student('77', 24, 100);
+            console.log(student);
+            student.sayHi();
+        }
+    </script>
+</body>
+
+</html>

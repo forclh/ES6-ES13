@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        {
+            // Promise,中文翻译过来承诺,意思是在未来某一个时间点承诺返回数据给你。
+            //          该对象用于异步操作 ，用来传递异步操作的消息，它表示一个预计在未来完成的异步操作。 
+
+
+            // 产生的场景： 同时发送两个ajax异步请求。 加载后台页面菜单
+            //         第一个根据用户请求得到当前用户的角色
+            //         第二个角色请求对应可以查看到的菜单列表。
+            // 但是由于ajax是异步请求，无法确定上述两个请求哪一个先完成。
+            // 而我们的想要第一个执行完再执行第二个，则需要将第二个请求放到第一个的回调函数中。
+            // 如果项目中类似这样的操作过多，代码的嵌套也就越来越多，你会陷入回调地狱。      
+            // //示例：模拟一种情况当a执行完了执行b再执行c
+            // $.ajax({
+            //     url:'urlA',
+            //     success:function(){
+            //         $.ajax({
+            //             url:"urlB",
+            //             success:function(){
+            //                 $.ajax({
+            //                     url:"urlC",
+            //                     success:function(){
+
+            //                     }
+            //                 })
+            //             }
+            //         })
+            //     }
+            // })
+
+            // 异步回调的问题：
+            //     之前处理异步是通过纯粹的回调函数的形式进行处理 
+            //     稍有不慎就会踏入回调地狱 - 嵌套层次深，不好维护
+            //     编程体验十分不好。
+
+            // 有了 Promise 对象，利用then()进行「链式回调」，
+            // 就可以将异步操作以同步操作的流程表达出来，避免了层层嵌套的回调函数。
+
+            // Promise对象代表一个异步操作，
+            // 有三种状态：pending（进行中）、fulfilled（已成功）和rejected（已失败）
+            // Promise对象的状态改变，只有两种可能：从pending变为fulfilled和从pending变为rejected。
+            // 一旦状态改变，就「凝固」了，会一直保持这个状态，不会再发生变化。
+            // 并且一旦状态改变，promise.then()绑定的函数就会调用。
+            // （菜做好了就不给退了）
+
+            // 此外，Promise 对象提供统一的接口，使得控制异步操作更加容易。
+            // Promise 也有一些缺点。首先，无法取消 Promise，
+            // 一旦新建它就会立即执行，无法中途取消。
+            // 其次，如果不设置回调函数，Promise 内部抛出的错误，不会反应到外部。
+            // 第三，当处于 Pending 状态时，无法得知目前进展到哪一个阶段（刚刚开始还是即将完成）。
+        }
+
+
+        // 基本语法
+        {
+            let promise = new Promise((resolve, reject) => {
+                // resolve 成功要执行的回调函数
+                // reject 失败要执行的回调函数
+                console.log('Promise');  // promise创建则立马执行
+
+                // 模拟异步操作
+                setTimeout(() => {
+                    resolve('一直在一起');
+                    // reject('分手了');
+                }, 2000);
+            });
+
+            // Promise的三种状态
+            console.log('pending', promise);
+
+            // 接受异步结果
+            promise.then(res => {
+                // 成功执行 res为resolve的返回值
+                console.log('res:', res);
+                console.log('fulfilled', promise);
+            }, err => {
+                // 失败执行 err 为reject的返回值
+                console.log('err:', err);
+                console.log('rejected', promise);
+            });
+        }
+
+        {
+            // 模拟先A后B在C的方式
+            // 使用then进行链式调用
+            let ajax = (url, data) => {
+                return new Promise((resolve, reject) => {
+                    // 模拟异步时常
+                    setTimeout(() => {
+                        console.log('请求', url);
+                        resolve();
+                    }, 2000)
+                })
+            }
+
+            ajax('/A').then(res => {
+                console.log('A请求响应了');
+                return ajax('/B');
+            }).then(res => {
+                console.log('B请求响应了');
+                return ajax('/C');
+            }).then(res => {
+                console.log('C请求响应了');
+            })
+
+
+
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        {
+            class Person {
+                constructor(name, age) {
+                    this.name = name;
+                    this.age = age;
+                }
+                // 使用 get/set 保护实例的属性的同时可以进行一些验证操作
+                // 获取pName值的时候执行
+                get pName() {
+                    console.log('执行了get方法...');
+                    return this.name;
+                }
+                // 修改pName值的时候执行
+                set pName(value) {
+                    console.log('执行了set方法...');
+                    this.age = value;
+                }
+            }
+
+            let person = new Person('ak', 24);
+            console.log(person.pName);
+            person.pName = 'AK';
+            console.log(person);
+        } 
+    </script>
+</body>
+
+</html>

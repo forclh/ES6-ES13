@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<!--
+			Proxy 这个词的原意是代理，用在这里表示由它来“代理”某些操作，可以译为“代理器”。
+			
+			Proxy 可以理解成，在目标对象之前架设一层“拦截”，外界对该对象的访问，
+			都必须先通过这层拦截，因此提供了一种机制，可以对外界的访问进行过滤和改写
+			
+			从而达到帮助我们重写对象中属性和方法的默认操作，定义自己的逻辑。
+			
+			语法：
+			ES6 原生提供 Proxy 构造函数，用来生成 Proxy 实例。
+			let proxy = new Proxy(target, handler);
+			target参数表示所要拦截的目标对象，
+			handler参数也是一个对象，用来定制拦截行为
+			
+			拦截行为：
+			    get(),set(),has()，deleteProperty()....
+		-->
+		
+		<script>
+
+			{
+				// Object.defineProperty 问题有以下几个
+				// 问题1.删除或者增加对象属性无法监听到
+				// 问题2.数组的变化无法监听到
+				// 问题3. 由于是使用递归遍历对象，使用 Object.defineProperty 劫持对象的属性，
+				// 如果遍历的对象层级比较深，花的时间比较久，甚至有性能的问题
+
+				// 对于 proxy ，在 mdn 上的描述是： 对象用于定义基本操作的自定义行为（如属性查找、赋值、枚举、函数调用等）
+				// 简单来说就是，可以在对目标对象设置一层拦截。无论对目标对象进行什么操作，都要经过这层拦截
+				// 听上去似乎， proxy 比 Object.defineProperty 要好用，并且简单很多，
+			}
+			{
+				let obj = {name:'zhangsan',age:20,address:'地址'};
+				let objproxy = new Proxy(obj, {
+				  //get 用来拦截对目标对象属性的访问请求
+				  get: function(target, propKey) {
+//				    return 'abc';  //1
+					console.log("get:",target,propKey)
+					return obj[propKey]; //返回模板对象属性值 2
+				  }
+				});
+				//访问属性，触发get方法
+				console.log(objproxy.name);    //abc |  zhangsan
+				console.log(objproxy.age)      //abc |  20
+				console.log(objproxy.address)  //abc |  地址
+			}
+			{
+//				如果访问目标对象不存在的属性，会抛出一个错误。
+// 				如果没有这个拦截函数，访问不存在的属性，只会返回undefined
+				let obj = {name:'zhangsan',age:20,address:'地址'};
+				let objproxy = new Proxy(obj,{
+					get:(target, key)=>{
+						if(key in obj){
+							return obj[key];
+						}else{
+							//throw new ReferenceError(`该对象上不存在${key}属性`)
+						}
+						
+					}
+				})
+				console.log(objproxy.name); 
+				console.log(objproxy.temp);  
+			}
+			{
+				let obj = {name:'zhangsan',age:20,address:'地址'};
+				let objproxy = new Proxy(obj, {
+				  //get 用来拦截对目标对象属性的访问请求
+				  get: function(target, key) {  
+					return obj[key]; //返回模板对象属性值 2
+				  },
+				  //set 方法用来拦截某个属性的赋值操作，可以接受四个参数，
+				  //依次为目标对象、属性名、属性值和 Proxy 实例本身，其中最后一个参数可选
+				  set:function(target,key,value){
+				  	if(key=="age"){
+				  		if(value>100){
+				  			throw new RangeError('年龄输入无效');// 值不在允许范围内
+				  		}
+				  	}
+				  	if(typeof value =="string"){
+				  		value = value.trim();
+				  	}
+				  	// 对于满足条件的 age 属性以及其他属性，直接保存
+    				target[key] = value;
+				  }
+				});
+				
+//				objproxy.age= 500;
+				objproxy.name="    zhangsan     ";
+				console.log(objproxy.name);
+			}
+		</script>
+	</body>
+</html>

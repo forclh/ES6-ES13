@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+</head>
+
+<body>
+	<script>
+		// Map 集合数据结构 键值对
+		// 1. 创建map
+		let map = new Map();
+		// 2. 添加元素
+		map.set('name', 'AK');
+		map.set('age', 23);
+		console.log(map, map.size);  // 查看元素个数
+		// 3. 获取元素
+		console.log(map.get('name'));
+		// 4. 删除元素
+		// console.log(map.delete('age'));
+		// 5. 清空元素
+		// map.clear();
+		console.log(map);
+		// 6. 遍历
+		for (let key of map.keys()) {
+			console.log('key:', key);
+		}
+		for (let value of map.values()) {
+			console.log('value:', value);
+		}
+		for (let [key, value] of map.entries()) {
+			console.log('entries:', key, value);
+		}
+		map.forEach((value, key) => {
+			console.log('forEach:', key, value);
+		})
+	</script>
+</body>
+
+</html>

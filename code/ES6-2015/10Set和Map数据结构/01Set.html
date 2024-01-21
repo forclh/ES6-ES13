@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+</head>
+
+<body>
+	<script>
+		{
+			/**
+			 * Set：一种数据结构，类似与数组，但是成员的值唯一，无重复值
+			 * 作用：存储多个数据的容器
+			 * 属性：size()  查看集合元素个数
+			 * 方法：
+			 * add()		 增加元素
+			 * has()		 判断元素是否存在
+			 * clear()   清空元素
+			 * keys()		 获取所有键的迭代器
+			 * values()	 获取所有值的迭代去
+			 * entries() 获取键值对的迭代器
+			*/
+		}
+
+		{
+			// 创建Set方式一
+			let list = new Set();
+			list.add('a');  // 增加元素
+			list.add('b');
+			list.add('a');  // 不报错，无效果
+			console.log(list);
+		}
+		{
+			// 创建Set方式二
+			let arr = ['a', 'b', 'c', 'd', 'a'];
+			console.log(arr);
+			let list = new Set(arr);  // 数组去重
+			console.log(list);
+		}
+		{
+			// 常用属性和方法
+			let arr = ['a', 'b', 'c', 'd', 'a'];
+			let list = new Set(arr);
+			// 查看元素个数
+			console.log(list.size);
+			// 判断元素是否存在
+			console.log('has:', list.has('a'));
+			// 删除元素
+			if (list.has('c')) {
+				console.log('delete:', list.delete('c'));
+			}
+			// 清空元素
+			// list.clear();
+			// console.log(list);
+			// 遍历set元素
+			// set中键和值是一样的
+			list.forEach((key, value, set) => {
+				console.log('forEach', key, value, set);
+			})
+
+			// 获取所有键的集合
+			console.log('keys:', list.keys());
+			// 遍历所有的键
+			for (let key of list.keys()) {
+				console.log('keys', key);
+			}
+
+			// 获取所有值的集合
+			console.log('values:', list.values());
+			// 遍历所有的值
+			for (let value of list.values()) {
+				console.log('values', value);
+			}
+
+			// 获取所有键值对的集合
+			console.log('entries', list.entries());
+			// 遍历所有键值对
+			for (let [key, value] of list.entries()) {
+				console.log('entries', key, value);
+			}
+		}
+	</script>
+</body>
+
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // Promise.all([p1, p2, p3])  可以将多个Promise实例包装成一个新的Promise实例。
+        // 场景：加载多张图片，都加载出来后 一起显示到页面中。
+
+        let p1 = new Promise((resolve, reject) => {
+            setTimeout(resolve, 3000, 'rp1');
+        });
+        let p2 = new Promise((resolve, reject) => {
+            setTimeout(resolve, 2000, 'rp2');
+        });
+        let p3 = new Promise((resolve, reject) => {
+            setTimeout(resolve, 1000, 'rp3');
+        });
+
+        // p1, p2, p3 都是异步操作并且同时开始的。
+        // 结果的顺序和传入参数的顺序相同，不管谁先响应
+        Promise.all([p1, p2, p3]).then(res => {
+            console.log(res);
+        })
+        //这带来了一个绝大的好处：在前端开发请求数据的过程中，
+        //偶尔会遇到发送多个请求并根据请求顺序获取和使用数据的场景，使用Promise.all()毫无疑问可以解决这个问题。
+
+        //注意：如果有一个失败，直接触发失败状态的回调函数，不理会其它Promise是否已完成。
+
+        // 应用场景1：多个请求结果合并在一起
+        // 应用场景2：合并请求结果并处理错误
+        // 应用场景3：验证多个请求结果是否都是满足条件
+    </script>
+</body>
+
+</html>

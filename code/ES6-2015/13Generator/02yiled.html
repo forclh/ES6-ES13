@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<script> 
+			{
+				//yield返回值 
+				function* myGenerator(){
+					console.log(1)
+					yield 10; 
+					yield 20; 
+				}
+				let myGen = myGenerator();
+				let value1 = myGen.next();
+				console.log(value1); //{value: 10, done: false}
+				let value2 = myGen.next();
+				console.log(value2); //{value: 20, done: false} 
+			}
+			{
+				//yiled传参
+				function* myGenerator(){
+					console.log(1)
+					let a = yield;
+					console.log(2,a)
+					let b = yield;
+					console.log(3,b)
+				}
+				let myGen = myGenerator();
+				myGen.next(10); //1 第一个next()传入的参数是没有意义的，没法给yield传参。
+							    //非要，则myGenerator()即可。
+				myGen.next(20); //2 20
+				myGen.next(30); //3 30
+			}
+
+            //???补充案例场景
+			
+		</script>
+	</body>
+</html>

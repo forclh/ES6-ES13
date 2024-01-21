@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+</head>
+
+<body>
+	<script>
+		{
+			let arr = ['张三', '李四', '王五'];
+			console.log(arr);
+			let it = arr[Symbol.iterator]();  // 动态调用array内部实现的iterator接口
+			// 实现了接口相当于拥有了next()指针, 可以使用它访问容器接口
+			console.log(it.next());  // {value: '张三', done: false}
+			console.log(it.next());  // {value: '李四', done: false}
+			console.log(it.next());  // {value: '王五', done: false}
+			console.log(it.next());  // {value: undefined, done: true}
+
+			// for ... of 相当于上面代码的语法糖
+			for (let item of arr) {
+				console.log(item);
+			}
+		}
+		{
+			// 只要实现了iterator接口就可以采用for ... of 的方法遍历
+			let map = new Map();
+			map.set('name1', 'ak');
+			map.set('name2', 'ak');
+			console.log(map);
+			let it = map[Symbol.iterator]();
+			console.log(it.next());  // {value: ['name1', 'ak'], done: false}
+			console.log(it.next());  // {value: ['name2', 'ak'], done: false}
+			console.log(it.next());  // {value: undefined, done: true}
+		}
+		{
+			// 给对象实现iterator接口
+			let obj = {
+				arr: ['1', '2', '3'],
+				[Symbol.iterator]() {
+					let nextIndex = 0;
+					return {
+						next() {
+							return nextIndex < obj.arr.length ? { value: obj.arr[nextIndex++], done: false } : { value: undefined, done: true }
+						}
+					}
+				}
+			};
+
+			let it = obj[Symbol.iterator]();
+			for (let item of obj) {
+				console.log('obj:', item);
+			}
+		}
+
+		{
+			// arguments 测试
+			let fn = function() {
+				// console.log(arguments);
+				for (let item of arguments) {
+					console.log('arguments:', item);
+				}
+			}
+
+			fn(1, 2, 3, 4);
+		}
+	</script>
+</body>
+
+</html>

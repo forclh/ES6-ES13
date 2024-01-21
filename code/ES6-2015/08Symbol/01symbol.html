@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- 
+        Symbol一种新的原始数据类型Symbol，表示独一无二的值。
+        它是 JavaScript 语言的第七种数据类型.
+        前六种是：undefined、null、Boolean、String、Number、Object 
+     -->
+    <script>
+        {
+            //Symbol 值通过Symbol函数生成,得到一个Symbol数据类型的值
+            let a = Symbol();
+            let b = Symbol();
+            console.log(a) //Symbol()
+            console.log(typeof a); //symbol
+            console.log(a == b); //false
+        }
+        {
+            //Symbol()函数可以接受一个参数,描述symbol内容
+            //即使描述一致，但值也是false
+            let a = Symbol('temp');
+            let b = Symbol('temp');
+            console.log(a); //Symbol(temp)
+            console.log(a == b); //false
+        } 
+		{
+				//可以显示转换成字符串，但是不可以隐式转换成字符串
+				let sym1 = Symbol(100);
+				console.log(String(sym1)); //Symbol(100)
+				console.log(sym1.toString()); //Symbol(100)
+				//console.log('$'+sym1);//Cannot convert a Symbol value to a string
+				//可以转换为布尔类型
+				console.log(Boolean(sym1));
+				if(sym1){
+				
+				}
+				//不可以转换成数值类型
+				//console.log(Number(sym1));//Cannot convert a Symbol value to a number
+				//不可以做运算
+				//console.log(sym1+100);//Cannot convert a Symbol value to a number
+			}
+			{
+				//一般用在对象属性名，确保在对象中不会出现同名的属性。
+				//防止被不小心修改或者覆盖
+				let myname1 = Symbol('myname');
+				let myname2 = Symbol('myname');
+				//存值方式1：  [Symbol()]
+				let obj = {
+					myname: "zhangsan",
+					age: 30,
+					[myname1]: 'lisi',
+					[myname2]: 'wanwu'
+				}
+				//存值方式2： 使用[] 不能用.
+				obj[myname2] = "zhaoliu"
+				console.log(obj)
+
+				//取值 使用[]包起来
+				console.log(obj.myname1); //undefined
+				console.log(obj[myname1]); //lisi
+				console.log(obj['myname']); //zhangsan
+				console.log(obj.myname); //zhangsan
+
+				console.log("****************")
+				//对对象元素也起到了保护作用
+				for(let item in obj) {
+					console.log(obj[item])
+				}
+				//获取对象中的Symbol属性
+				let result = Object.getOwnPropertySymbols(obj);
+				console.log(result); // [Symbol(myname), Symbol(myname)]
+				for(let i = 0; i < 2; i++) {
+					console.log(obj[result[i]])
+				}
+			}  
+    </script>
+</body>
+
+</html>
