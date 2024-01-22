@@ -1,118 +1,118 @@
 <!DOCTYPE html>
-<html> 
+<html>
+
 <head>
 	<meta charset="UTF-8">
 	<title></title>
 </head>
 
-<body> 
+<body>
 	<script>
-		// Generator函数是将函数分步骤阻塞 ，只有主动调用next() 才能进行下一步 ，
-		// 因为asyns函数相当于Generator函数的语法糖，做出了优化，所以这里对Generator函数不做赘述，
-		// 而且一般用到异步编程的时候一般也只用async和promise
-
-		//Generator 函数是 ES6 提供的一种异步编程解决方案
-		//Generator 函数是一个状态机，封装了多个内部状态。
-		//执行 Generator 函数会返回一个遍历器对象
-		//Generator也是一个遍历器对象生成函数
-		//返回的遍历器对象，可以依次遍历 Generator 函数内部的每一个状态
+		// Generator 函数是 ES6 提供的一种异步编程解决方案
+		// Generator 函数是一个状态机，封装了多个内部状态。
+		// 执行 Generator 函数会返回一个遍历器对象Iterator
+		// Generator也是一个遍历器对象Iterator生成函数
+		// 返回的遍历器对象Iterator，可以依次遍历 Generator 函数内部的每一个状态
 		{
-			//语法：
-			/*形式上，Generator 函数是一个普通函数，但是有两个特征。
-			 *一是，function关键字与函数名之间有一个星号；
-			 *二是，函数体内部使用yield表达式，定义不同的内部状态（yield在英语里的意思就是“产出”）
-			 */
-			//generator的基本定义
+			// 基本语法 * 创建Generator函数
 			let tell = function* () {
-				console.log('generator');
-				console.log('yield aaa');
-				yield 'a';  //暂停标志
-				console.log('yield bbb');
+				console.log(1);
+				yield;  // yield 暂停产出关键字
+				console.log(2);
+				yield;
+				console.log(3);
+			}
+			// Generator函数返回迭代器
+			let it = tell();
+			// 通过next()执行一下步，遇到yield暂停
+			it.next();
+			it.next();
+			it.next();
+		}
+
+		{
+			// yield 返回值
+			let tell = function* () {
+				console.log(1);
+				yield 'a';
+				console.log(2);
 				yield 'b';
+				console.log(3);
 				return 'c';
 			}
-			let k = tell();
-			//如果只是简单的tell() 这个generator函数是不会执行的,返回的也不是函数内部的结果
-			//必须调用遍历器对象的next方法来让这个函数执行,
-			//每next一次就会执行一个yield和yield之前的内容 执行完yield或return就会停止了。
-			//因为generator函数返回的结果是iterator 所以打印出来的值{value: "a", done: false}和iterator接口一样
-			console.log(k.next())// generator {value: "a", done: false}
-			console.log(k.next());//{value: "b", done: false}
-			console.log(k.next());//{value: "c", done: true}
-			console.log(k.next());//{value: undefined, done: true}	
-			//Generator 函数是分段执行的，yield表达式是暂停执行的标记，而next方法可以恢复执行。
+			let it = tell();
+			console.log(it.next());  // {value: 'a', done: false}
+			console.log(it.next());  // {value: 'b', done: false}
+			console.log(it.next());  // {value: undefined, done: true} 添加return后输出 {value: 'c', done: true}  
+		}
 
-			//语法上*号的位置
-			//ES6 没有规定，function关键字与函数名之间的星号，写在哪个位置。这导致下面的写法都能通过。
-			/*function * foo(x, y) { ··· }  function *foo(x, y) { ··· }
-			function* foo(x, y) { ··· } function*foo(x, y) { ··· }*/
-		}
 		{
+			// yield 传参
+			let tell = function* () {
+				console.log('1:');
+				let res1 = yield;
+				console.log('2:', res1);
+				let res2 = yield;
+				console.log('3:', res2);
+			}
 
-			//yiled传参
-			function* myGenerator() {
-				console.log(1)
-				let a = yield;   //	let a = yield 'ooo'; 也是可以的
-				console.log(2, a)
-				let b = yield;
-				console.log(3, b)
-			}
-			let myGen = myGenerator();
-			myGen.next(10); //1 第一个next()传入的参数是没有意义的，没法给yield传参。
-			//非要，则myGenerator()即可。
-			myGen.next(20); //2 20
-			myGen.next(30); //3 30
+			let it = tell();
+			it.next(10);  // 1:		第一个传入的参数是没有意义的，没法赋值给yield
+			it.next(20);  // 2: 20
+			it.next(30);  // 3: 30
 		}
-		{
-			//generator函数和iterator的关系 
-			//generator函数就是一个遍历器生成的函数 所以可以直接把generator赋值给[Symbol.iterator] 
-			//从而是这个对象也具备iterator结构
-			//之前写的iterator接口是自己手动自定义的 使用generator也可以作为一个遍历器的返回值
-			let obj = {}; //原本的这个空对象是没有for of方法的 以前的写法是自己部署一个iterator接口
-			//，现在通过generator来给这个obj对象部署一个iterator接口
-			obj[Symbol.iterator] = function* () {
-				yield 1;
-				yield 2;
-				yield 3;
-			}
-			for (let val of obj) {
-				console.log(val);
-			}
-		}
-		{
-			//上面替代方案
-			let zhangsan = {
-				name: 'zhangsan',
-				age: 20,
-				address: '南山区'
-			}
-			zhangsan[Symbol.iterator] = function* () {
-				yield zhangsan.name;
-				yield zhangsan.age;
-				yield zhangsan.address;
-			}
-			let it = zhangsan[Symbol.iterator]();
-			console.log("it.next():", it.next());
-			console.log("it.next():", it.next());
-			console.log("it.next():", it.next());
-		}
-		{
-			//return 情况
-			let temp = function* () {
-				yield 1;
-				yield 2;
-				return 3;
-			}
-			let n = temp();
-			console.log(n.next());  //{value: 1, done: false}
-			console.log(n.next());  //{value: 2, done: false}
-			console.log(n.next());  //{value: 3, done: true}
 
-			for (let v of temp()) {
-				console.log(v);
+		{
+			// 需求 使用for ... of 方式遍历对象属性值
+			let obj = {
+				name: 'ak',
+				age: 24,
+				address: 'zhejiang',
+				*[Symbol.iterator]() {
+					yield obj.name;
+					yield obj.age;
+					yield obj.address;
+				},
+				// [Symbol.iterator]: function* () {
+				// 	yield obj.name;
+				// 	yield obj.age;
+				// 	yield obj.address;
+				// }
+			};
+
+			for (let item of obj) {
+				console.log('item:', item);
 			}
-			// 1 2 return 3 不包括在for of里面
-		} 
+
+		}
+		{
+			// 需求先A后B在C
+			let ajax = (url, data) => {
+				return new Promise((resolve, reject) => {
+					resolve(data);
+				})
+			};
+
+			let steps = function* () {
+				let aaa = yield ajax('/aaa', 'a参数').then(res => {
+					console.log('aaa的响应结果:', res);
+					return it.next('a的响应值');
+				});
+
+				let bbb = yield ajax('/bbb', 'b参数').then(res => {
+					console.log('bbb的响应结果', res, aaa);
+					return it.next('b的响应值');
+				})
+				let ccc = yield ajax('/ccc', 'c参数').then(res => {
+					console.log('ccc', res, bbb);
+					return it.next('c的响应值');
+				})
+			};
+
+			let it = steps();
+			it.next();
+
+		}
 	</script>
 </body>
 

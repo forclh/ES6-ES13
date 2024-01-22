@@ -17,9 +17,9 @@
 // 	console.log('fn')
 // }
  
-// //一个模块只能有一个默认输出 
-// //也可以导出类
-// //2.1
+//一个模块只能有一个默认输出 
+//也可以导出类
+//2.1
 export default class Person{
 	constructor(name){
 		this.name = name;
