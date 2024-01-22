@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        {
+            // catch(callback) 于指定发生错误时的回调函数。
+            // 使用catch替换then第二个err函数的写法，原因里catch也可以捕获到success函数内发生的错误。
+            // finally (callback) 不管程序是否报错，无论如何都执行的代码
+            // promise状态一旦改变就会凝固，不会再改变。因此promise一旦fulfilled了，再抛错，也不会变为rejected，就不会被catch了。
+            
+            let promise = new Promise((resolve, reject) => {
+                // 如：显示请求数据的动画
+                console.log('Promise立即执行');
+
+                // 模拟一个异常
+                throw new Error('发生异常');
+
+                resolve('成功了...');
+                // reject('失败了...');
+            });
+
+            promise.then(res => {
+                console.log('res:', res);
+                
+            }, err => {
+                // 只捕获promise中的错误，不会捕获res中的错误
+                console.log('err:', err);
+                
+            }).catch(err => {
+                // 捕获所有的错误
+                console.log('catch:', err);
+            }).finally(() => {
+                // 如：使动画消失
+                console.log('finally');
+            })
+        }     
+    </script>
+</body>
+
+</html>

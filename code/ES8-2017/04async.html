@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<script>
+			//串行变并行
+			{
+				//串行写法， 必须是先执行完p1才会执行p2
+				//getP1(),getP2()模拟两个不想干的异步请求
+				let getP1 =()=>new Promise((resolve,reject)=>{
+					console.log('aaa')
+				    resolve('p1');
+				}) 
+				let getP2 =()=>new Promise((resolve,reject)=>{
+					console.log('bbb')
+				    resolve('p2');
+				})   
+				let fn = async ()=>{  
+					console.log(await getP1()); 
+					console.log(await getP2())
+				}
+				fn();
+			}
+			{
+				// 改成并行
+				// 方式一：
+				let getP1 =()=>new Promise((resolve,reject)=>{
+					console.log('ccc')
+				    resolve('p1');
+				}) 
+				let getP2 =()=>new Promise((resolve,reject)=>{
+					console.log('ddd')
+				    resolve('p2');
+				})   
+				let fn = async ()=>{ 
+					let doP1 = getP1();
+					let doP2 = getP2(); 
+					console.log(await doP1);
+					console.log(await doP2)
+				}
+				fn();
+				// 边做饭边打电话
+				// 先做完饭再打电话
+			}
+			{
+				//方式二：Promise.all()
+				// let getP1 =()=>{
+				// 	return Promise.resolve('p1');
+				// }
+				// let getP2 =()=>{
+				// 	return Promise.resolve('p2');
+				// }
+				// let fn = async ()=>{  
+				// 	let values = await Promise.all([getP1(),getP2()]);  
+				// 	console.log(values)
+				// }
+				// fn();
+			}
+
+			/* 
+			   异步代码同步化
+               async 用来修饰函数的
+			   await  等待  根据这个关键字出现的位置  先执行前面的代码再执行后面的代码
+
+			        async function getVal() {
+						let res1 = await p1;
+						console.log(res1);
+						let res2 = await p2;
+						console.log(res2);
+						let res3 = await p3;
+						console.log(res3);
+						console.log("同步");
+					}
+					getVal();
+			*/
+		</script>
+	</body>
+</html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // at()方法接收一个下标并返回该下标所对应的数组的数据，
+        // 下标值允许是正数或者负数。
+        // 如果是负整数则会从数组的最后开始向前进行搜索并返回对应下标的数组数据，
+        // 如果下标值超过数组的长度则返回undefined。
+        let arr = ['aaa', 'bbb', 'ccc', 'ddd', 'fff'];
+        console.log(arr.at(0));   // 'aaa' 
+        console.log(arr.at(1));   // 'bbb'   
+        console.log(arr.at(-1));  // 'fff'   
+        console.log(arr.at(5));   // undefined
+    </script>
+</body>
+
+</html>

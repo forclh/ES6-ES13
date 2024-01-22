@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        {
+            //私有属性
+            class Cache {
+                #obj = {}
+                get(key) {
+                    return this.#obj[key]
+                }
+                set(key, value) {
+                    this.#obj[key] = value
+                }
+            }
+
+            let cache = new Cache()
+            cache.set("name", "zhangsan")
+        }
+
+        {
+            //使用in判断对象是否拥有某个属性
+            class Cache {
+                #obj = {}
+
+                get(key) {
+                    return this.#obj[key]
+                }
+                set(key, value) {
+                    this.#obj[key] = value
+                }
+
+                hasObj() {
+                    return #obj in this
+                }
+            }
+
+            let cache = new Cache()
+            console.log(cache.hasObj())
+        }
+    </script>
+</body>
+
+</html>

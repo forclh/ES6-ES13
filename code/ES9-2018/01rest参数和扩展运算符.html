@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        {
+            //1.扩展运算符  ...
+            let aobj = {
+                name: 'zhangsan',
+                age: 29,
+                address: '南山区'
+            }
+            //对象解构
+            let { name, ...curobj } = aobj;
+            console.log(name, curobj);//zhangsan {age: 29, address: "南山区"}
+
+            //合并对象
+            let bobj = {
+                a: 1,
+                b: 2
+            };
+            let cobj = { b:5, c: 3, ...bobj };  // 同名则后面覆盖前面
+            //	等同于let cobj = Object.assign({},bobj)
+            console.log(cobj); // {b: 2, c: 3, a: 1}
+        }
+        {
+            //2.引入 rest 参数（形式为...变量名）
+            //注意，rest 参数之后不能再有其他参数（即只能是最后一个参数），否则会报错
+            // 可用于解决箭头函数无法使用arguments的场景
+            function fn(...args) {
+                for (let t in args) {
+                    console.log(t, args[t]);
+                }
+            }
+            fn('a', 1, 23, 4, 5); //把零散的数变成数组，上面。
+        } 
+    </script>
+</body>
+
+</html>

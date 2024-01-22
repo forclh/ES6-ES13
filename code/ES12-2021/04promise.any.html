@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        let p1 = new Promise((resolve, reject) => {
+            setTimeout(reject, 3000, 'p1');
+        });
+        let p2 = new Promise((resolve, reject) => {
+            setTimeout(reject, 2000, 'p2');
+        });
+        let p3 = new Promise((resolve, reject) => {
+            setTimeout(reject, 1000, 'p3');
+        });
+        // Promise.any([p1, p2, p3,])只有有一个先完成就执行then，所有的都失败了才执行catch
+        Promise.any([p1, p2, p3]).then(res => {
+            console.log('success:', res)
+        }).catch(err => {
+            console.log('err:', err);
+        });
+    </script>
+</body>
+
+</html>

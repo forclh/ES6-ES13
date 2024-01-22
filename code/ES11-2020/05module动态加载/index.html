@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script type="module">
+    // ES11-2020之前都是只能静态加载模块的, 不能使用表达式或者是变量
+
+    // let path = './index.js';
+    // import { numberA } from path;  // 报错
+    // if (true) {
+    //   import { numberA } from './index.js';  // 报错
+    // } 
+
+    // import { numberA } from './index.js';   // 导入语句过多，如果不使用的话，可能会造成加载时间过
+    // console.log(numberA);
+
+
+    // 如何实现动态加载即按需加载资源
+
+    // 动态加载 import()
+    console.log(import('./index.js')); // 返回promise对象
+    import('./index.js').then(res => {
+      console.log("res", res, res.numberA);
+    })
+
+    // 支持表达式
+    if (true) {
+      import('./index.js').then(res => {
+        console.log("res", res, res.numberA);
+      })
+    }
+
+    let module = await import('./index.js');
+    console.log(module.numberA);
+
+  </script>
+</body>
+
+</html>

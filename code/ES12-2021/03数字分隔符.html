@@ -1,0 +1,29 @@
+<!--
+ * @version: 1.0
+ * @Author: Hedy_Li
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- 
+        允许数值字面量中间包含不连续_，以提高可读性
+     -->
+    <script>
+        const numA = 11122233344;
+        const numB = 111_222_333_44;
+        console.log(numA,numB,numA===numB);
+        //分隔符不仅可以分割十进制，也可以分割二进制或者十六进制的数据，非常好用。
+        const hex =  0xff_ff_ff;   //shiliu
+        const binary = 0b1010_0101_1111_1101;   //er
+    </script>
+</body>
+
+</html>

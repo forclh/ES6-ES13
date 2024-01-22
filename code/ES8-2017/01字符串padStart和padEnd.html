@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        let str = 'AK';
+        //padStart(目标长度[,填充字符串])
+        console.log(str.padStart(10));  // 默认采用空格补充
+        console.log(str.padStart(10, 'x'));
+
+        //padEnd(目标长度[,填充字符串])
+        console.log(str.padEnd(10, "x"));
+
+        // 适用场景： 
+        // 　　1. 常见用途是为数值补全指定位数
+        console.log('1'.padStart(6, '0'));
+        // 　　2. 另一个用途是提示字符串格式
+        // 日期月份位数填充padStart
+        console.log('12'.padStart(10, 'YYYY-MM-DD'));  // YYYY-MM-12
+        console.log('12-12'.padStart(10, 'YYYY-MM-DD'));  // YYYY-12-12
+        // 表单标签右对齐padStart
+        // 表单标签左对齐padEnd
+
+
+    </script>
+</body>
+
+</html>

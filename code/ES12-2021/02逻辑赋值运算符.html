@@ -1,0 +1,56 @@
+<!--
+ * @version: 1.0
+ * @Author: Hedy_Li
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //ES2021 引入了三个新的逻辑赋值运算符（logical assignment operators），
+        //将逻辑运算符与赋值运算符进行结合
+        {
+            // 或赋值运算符  一真全真
+            // 老的写法
+            let id = 99;
+            id = id || 1;
+            console.log(id);
+            id || (id = 99)
+            console.log(id);
+            // 合二为一
+            id ||= 1;  // id || (id=1)
+            console.log(id);
+        }
+        {
+            // 与赋值运算符  一假全假
+            let id = 100;
+            id = id && 0;
+            console.log(id);
+            id && (id = 100);
+            console.log(id);
+            id &&= 100;  // id && (id = 100)
+            console.log(id);
+        }
+        {
+            // Null赋值运算符
+            let id = null;  //null
+            id = id ?? 8;
+            console.log("null:", id); // 8
+            id = null;
+            id ?? (id = 9);
+            console.log(id);  // 9
+            id = null;
+            id ??= 10;
+            console.log(id);  // 10
+        } 
+    </script>
+</body>
+
+</html>

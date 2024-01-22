@@ -1,0 +1,76 @@
+<!--
+ * @version: 1.0
+ * @Author: Hedy_Li
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        {
+            //回顾 Object.entries()
+            const obj = { a: 111, b: 222 }
+            console.log(Object.entries(obj));  //[['a',111],['b',222]]
+        }
+        {
+            //把键值对列表转换为一个对象，这个方法是和 Object.entries() 相对的
+            let obj = Object.fromEntries([
+                ['a', 111], ['b', 222]
+            ])
+            console.log(obj); // { a: 111, b: 222 }
+        }
+
+        // 对象结构是一个是有键和值组合 {a:1} 
+        // 基于这个逻辑，如果我们想将某个东西转成对象，就必须要传递键和值。
+        // 有两种类型的参数可以满足这些要求：
+        //     1.具有嵌套键值对的数组
+        //     2.Map 对象 (键值对结构)
+        {
+            //使用 Object.fromEntries 将数组转成对象
+            let obj = Object.fromEntries([
+                ['key1', 'value1'], ['key2', 'value2']
+            ])
+            console.log(obj); //{key1: 'value1', key2: 'value2'}
+        }
+        {
+            //2.  Map 转 Object
+            let map = new Map();
+            map.set('key1', 'value1')
+            map.set('key2', 'value2')
+            console.log(map); //Map(2) {'key1' => 'value1', 'key2' => 'value2'}
+            console.log(Object.fromEntries(map));//{key1: 'value1', key2: 'value2'}
+        }
+
+        {
+            //   3.转化 url 参数
+            const queryString = "?name=zhangsan&age=18&address=天河";
+            // 工具类，方便处理路由参数
+            const queryParams = new URLSearchParams(queryString);
+            console.log("aaa", queryParams);
+            console.log(queryParams.get("name")); //zhangsan  key,value
+            const paramObj = Object.fromEntries(queryParams);
+            console.log(paramObj);
+            //{name: 'zhangsan', age: '18', address: '天河'}
+        }
+        // {
+        //     //过滤属性
+        //     let obj = { name: 'zhangsan', age: 20 };
+
+        //     let ret = Object.fromEntries(Object.entries(obj)
+        //         .filter(([key]) => ["name","age"].includes(key))
+        //     )
+        //     console.log(ret)
+        // }
+
+
+    </script>
+</body>
+
+</html>

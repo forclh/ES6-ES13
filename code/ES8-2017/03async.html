@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<script src="../../06 iterator和generator/示例代码/js/jquery-1.12.4.js"></script>
+		<!-- 
+			async函数就相当于自执行的Generator函数，相当于自带一个状态机，
+			在await的部分等待返回， 返回后自动执行下一步。
+			而且相较于Promise,async的优越性就是把每次异步返回的结果从then中拿到最外层的方法中，
+			不需要链式调用，只要用同步的写法就可以了。更加直观而且，更适合处理并发调用的问题。
+			但是async必须以一个Promise对象开始 ，所以async通常是和Promise结合使用的
+		 -->
+		<script>
+			//ES7 标准引入了 async 函数，使得异步操作变得更加方便 
+			//它就是 Generator 和 Promise 函数的语法糖
+			/*
+			 * async函数的返回值是一个Promise ，无论函数内是否有await操作。
+			 * 		函数内部return返回的值，会成为then回调函数的参数
+			 *	        函数内部抛出的错误，会被then的第二个函数或catch方法捕获到	
+
+			 * await 操作符用于等待一个 Promise 对象, 它只能在异步函数 async function 内部使用。
+			 *      只在async函数中出现。普通函数中出现会报错。
+			 *      正常情况下，await命令后面是一个 Promise 对象，返回该对象的结果。
+			 *      如果不是 Promise 对象，就直接返回对应的值。
+			 */
+			{  
+				//  let p1 = () => Promise.resolve("hello") 简单写法
+		 		let p1 = ()=> new Promise((resolve,reject)=>resolve('hello'))
+		 		
+		 		function fn(){
+		 			p1().then(res=>{
+		 				console.log('demo1-1',res);
+		 			})
+		 			console.log('demo1-2');
+		 		} 
+		 		fn();
+			}
+			{ 
+				let p1 = ()=> Promise.resolve('hello')
+				async function fn(){
+		 			let res = await	p1(); //感觉像同步编程一样
+		 			          //await获取的是resolve()传递给then的数据。
+		 			          //而reject()传递给then的数据需要通过try...catch()...
+		 			console.log('demo2-1',res);
+		 			console.log('demo2-2');
+		 		} 
+		 		fn();
+			} 
+			{
+				//多种语法方式
+				//函数声明方式
+				async function fn1(){
+					
+				}
+				//函数表达式方式
+				let fn2 = async function(){
+					
+				}
+				//对象的方法
+				let obj = {
+					async fn3(){
+						return await Promise.resolve(1);
+					}
+				}
+				obj.fn3().then(res=>{
+					console.log("demo6-对象的方法",res)
+				})
+				//箭头函数方式
+				let fn4 = async ()=>{
+					
+				}
+			}
+
+			{
+				//async函数 返回一个Promise
+				let p1 = ()=> Promise.resolve('hello')
+		 		async function fn1(){ 
+		 			return await p1();   //return await 1
+		 		}
+		 	    fn1().then(
+		 	    	res=>{
+		 	    		console.log('demo3',res)
+		 	    	}
+		 	    )
+			} 
+			{
+				//如果异步发生错误   (复制上面代码，修改resolve（）) 
+				//如果async函数内发生错误,可以被then的第二个函数或catch方法捕获到  
+//				let p1 = ()=> new Promise((resolve,reject)=>reject('hello error'))
+				let p1 = ()=> Promise.reject('error hello') ;		 		 
+		 		async function fn1(){
+		 			return await p1();  
+		 		}
+		 	    fn1().then(
+		 	    	res=>{
+		 	    		console.log('demo4res:',res); 
+		 	    	},
+//		 	    	err=>{
+//		 	    		console.log('demo4err:',err)
+//		 	    	}
+		 	    ).catch(
+		 			err=>{
+		 				console.log('demo4catch',err)
+		 			}
+		 		);
+			} 
+			{
+				//有时我们希望即使前一个异步异常了，但是不要影响后面的操作。
+				//防止出错的方法， try{可能会出错的代码块}catch(){捕获try中的异常} 
+				let p1 = ()=> Promise.reject('P1-reject') ; 
+		 		async function fn(){ 
+		 			try{
+		 				await p1();  
+		 			}catch(e){
+		 				console.log('demo5-catch'); 
+		 			}
+		 			return await('demo5-return')
+		 		} 
+		 		fn().then(
+		 			res=>{console.log('demo5:',res)} 
+		 		);
+			}  
+			{
+				//可忽略
+				let p1 = ()=> new Promise((resolve,reject)=>{
+					setTimeout(()=>resolve('111'),2000)
+				}) 
+				async function fn1(){
+					let rev = await p1();
+					console.log("rev:",rev)
+					// let rev2 = await p1();
+					// console.log("rev:",rev2)
+				}
+				fn1(); 
+				async function fn2(){
+					let rev = await p1();
+					console.log("rev:",rev) 
+				}
+				fn2();
+				//同时输出 rev: 111
+			}
+// //			
+// 			{
+// 				//改写上节课的例子。 
+// 		 		async function getData(){
+// 		 			let userType = await Promise.resolve($.ajax({url:'aaa.txt'}))
+// 		 			console.log(userType)
+// 		 			if(userType == "manager"){
+// 		 				let userlist = await Promise.resolve($.ajax({url:'bbb.txt'}) )
+// 		 				console.log("userlist1",userlist)
+// 		 			}else{
+// 		 				let userlist =  Promise.resolve($.ajax({url:'ccc.txt'}) )
+// 		 				console.log("userlist2",userlist)
+// 		 			}
+// 		 		} 
+// 		 		getData(); 
+// 		 		//Async 函数的实现最简洁，最符合语义，几乎没有语义不相关的代码
+// 		 	}
+			
+		</script>
+	</body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        {
+            //Object.values() 或许对象中的属性值，结果是个一维数组
+            let result1 = Object.values({ name: 'zhangsan', age: 20 })
+            console.log(result1); // ["zhangsan", 20]
+            let result2 = Object.values(["张三", "李四"])
+            console.log(result2); // ["张三", "李四"]
+        }
+        {
+            //Object.entries()将某个对象的可枚举属性与值按照二维数组的方式返回
+            let result1 = Object.entries({ name: 'zhangsan', age: 20 })
+            console.log(result1);  // [["name", "zhangsan"],["age", 20]]
+            let result2 = Object.entries(["张三", "李四"])
+            console.log(result2);  // [["0", "张三"], ["1", "李四"]]
+        }
+        {
+            // 用于初始化Map
+            let map = new Map([['name', 'ak']]);
+            console.log(map);
+            let map2 = new Map(Object.entries({ name: 'zhangsan', age: 20 }))
+            console.log(map2);
+        }
+    </script>
+</body>
+
+</html>

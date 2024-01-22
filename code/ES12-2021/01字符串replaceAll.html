@@ -10,13 +10,10 @@
 
 <body>
     <script>
-        {
-            //ES7 includes()
-            //表示某个数组是否包含给定的值，方法返回一个布尔值，
-            //与字符串的includes方法类似
-            let arr = [20, 30, 88, 11];
-            console.log(arr.includes(20));
-        }
+        //替换所有符合匹配规则的字符
+        let str = "abcdefgaaa";
+        console.log(str.replace(/a/g, 'A'));
+        console.log(str.replaceAll("a", "A"));  //AbcdefgAAA
     </script>
 </body>
 

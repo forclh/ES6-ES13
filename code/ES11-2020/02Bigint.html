@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        console.log(2 ** 53, 2 ** 53 + 1);
+        //9007199254740992 9007199254740992
+        console.log(2 ** 53 === 2 ** 53 + 1); //true
+
+        //为了与 Number 类型区别，BigInt 类型的数据必须添加后缀`n`。
+        console.log(1234);  // 普通整数
+        console.log(1234n); // BigInt
+        console.log(BigInt(1234)); // BigInt
+
+        console.log(typeof 1234);  // number
+        console.log(typeof 1234n); // bigint
+        console.log(1234 === 1234n);
+
+        // BigInt 的运算
+        console.log(1n + 2n); // 3n 
+        console.log(9007199254740992n);
+        console.log(9007199254740993n);
+
+        // 应用场景
+        // 1. 金融领域数值过大
+        // 2. 后端返回的id值过大时（以前使用字符串或者第三方库解决id过大的问题）
+    </script>
+</body>
+
+</html>

@@ -9,14 +9,18 @@
 </head>
 
 <body>
-    <script>
-        {
-            //ES7 includes()
-            //表示某个数组是否包含给定的值，方法返回一个布尔值，
-            //与字符串的includes方法类似
-            let arr = [20, 30, 88, 11];
-            console.log(arr.includes(20));
+    <script type="module">
+        function ajax() {
+            return new Promise((resolve) => {
+                setTimeout(() => {
+                    resolve("data-1111");
+                }, 1000);
+            })
         }
+
+        let res = await ajax();
+        console.log(res)
+
     </script>
 </body>
 

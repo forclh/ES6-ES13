@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // 异步迭代器（for await of）：循环等待每个Promise对象变为resolve状态才进行下一步
+        function getData(time) {
+            return new Promise((resolve, reject) => {
+                setTimeout(resolve, time, time);
+            })
+        }
+
+        {
+            // 效果 1000 -> 2000 -> 3000
+            // getData(2000).then(res => { console.log(res) });
+            // getData(1000).then(res => { console.log(res) });
+            // getData(3000).then(res => { console.log(res) });
+        }
+
+        {
+            // async + await 使得异步代码同步化
+            // await 必须放在async修饰的函数内
+            async function fn() {
+                console.log(await getData(2000));
+                console.log(await getData(1000));
+                console.log(await getData(3000));
+            }
+            // 效果 2000 -> 1000 -> 3000
+            // fn();
+        }
+        {
+            // 如果有很多个异步请求，采用上面的方式就比较麻烦
+            // 能不能把所有的请求放入一个数组，通过迭代数组来顺序执行
+            // let arr = [getData(2000),getData(1000),getData(3000)];
+
+            // for (let item of arr) {
+            //     console.log('A:', item, item.then(res => console.log('A-res',res)));
+            // }
+            // 结果：还是谁先响应就输出谁，没有按照列表的顺序输出
+        }
+        {
+            async function fn() {
+                for (let item of [await getData(2000),await getData(1000),await getData(3000)]) {
+                    console.log('B:', item);
+                }
+            }
+            // fn();
+            // 结果：等待所有的任务都resolve后才执行
+            // 类似于 Promise.all([getData(2000), getData(1000), getData(3000)]).then(res => console.log(res));
+        }
+        {
+            async function fn() {
+                for await (let item of [getData(2000),getData(1000),getData(3000)]) {
+                    console.log('C:', item);
+                }
+            }
+            fn();
+            // 结果：等待每一个异步任务resolve后执行下一个任务，满足需求按照数组的顺序输出
+        }
+    </script>
+</body>
+
+</html>
